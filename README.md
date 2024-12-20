@@ -93,4 +93,4 @@ This command converts `model.onnx` to `model.mnn` with FP16 quantization.
 
 ---
 
-With these steps, we can deploy the PyTorch model using MNN on mobile devices for simple runtime test.
+With these steps, we can deploy the PyTorch model using MNN on mobile devices for simple runtime tests.
