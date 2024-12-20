@@ -2,8 +2,8 @@ import time
 import torch
 import warnings
 warnings.filterwarnings("ignore")
-from LACS import LACSNet
-from SCConv import SCConv
+from model.DSCM import DSCM
+from model.SSFR import SSFR
 import torch.nn as nn
 
 
@@ -12,10 +12,10 @@ class CNN(nn.Module):
     def __init__(self):
         super(CNN, self).__init__()
         conv1 = nn.Conv2d(1, 64, (8, 1), (2, 1), padding=(1, 0))
-        mask1 = LACSNet(64, 64, output_size=(98, 3), mask_spatial_granularity=(10, 1))
+        mask1 = DSCM(64, 64, output_size=(98, 3), mask_spatial_granularity=(10, 1))
 
         conv2 = nn.Conv2d(64, 128, (8, 1), (2, 1), padding=(1, 0))
-        mask2 = LACSNet(128, 128, output_size=(47, 3), mask_spatial_granularity=(5, 1))
+        mask2 = DSCM(128, 128, output_size=(47, 3), mask_spatial_granularity=(5, 1))
 
         conv3 = nn.Conv2d(128, 256, (8, 1), (2, 1), padding=(1, 0))
 
@@ -24,13 +24,13 @@ class CNN(nn.Module):
             nn.BatchNorm2d(64),
             nn.ReLU(inplace=True),
             mask1,
-            SCConv(64),
+            SSFR(64),
 
             conv2,
             nn.BatchNorm2d(128),
             nn.ReLU(inplace=True),
             mask2,
-            SCConv(128),
+            SSFR(128),
 
             conv3,
             nn.BatchNorm2d(256),
